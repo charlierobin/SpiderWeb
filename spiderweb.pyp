@@ -79,7 +79,7 @@ class SpiderGenerator:
     def _getPointsPosition(self,p1, p2 , hubPos, pcnt):
         #compute points on spline moving toward the hub
         points  = []
-        for cpt in xrange(pcnt+1):
+        for cpt in range(pcnt+1):
             t = float(cpt) / float(pcnt)
             points.append( self._getPointPositionAt(p1,p2,hubPos,t) )
         return points
@@ -492,7 +492,7 @@ class ComputeSpiderWeb(ComputeAndDisplay, object):
         #random.seed(self.seed)
         directions = []
         rotation = c4d.utils.Rad(360.0 / float(raycnt))
-        for cpt in xrange(raycnt):
+        for cpt in range(raycnt):
             rndangle = random.uniform(0.0,0.5)
             sn, cs = c4d.utils.SinCos(rotation * cpt + c4d.utils.Rad(rndangle))
             #matrice de rotation sur l'axe Z
@@ -575,7 +575,7 @@ class ComputeSpiderWeb(ComputeAndDisplay, object):
         ppos = c4d.Vector(0)
         dtoP = 0
 
-        for j in xrange(self.frameThread._getPointCount()):
+        for j in range(self.frameThread._getPointCount()):
             ppos = self.frameThread.points[j]
             dtoP = (ppos - originPoint).GetLength()
             if dtoP > distToFrame or distToFrame==0:
@@ -678,7 +678,7 @@ class ComputeSpiderWeb(ComputeAndDisplay, object):
                 
                 ray_end += ray_dir * distToFrame
                 
-                for j in xrange(self.frameThread._getPointCount()):
+                for j in range(self.frameThread._getPointCount()):
                     
                     #ppos = self._getNearestPoint(self.frameThread, ray_end, 1.0 / 10.0)
                     ppos = self.frameThread.points[j]
@@ -740,9 +740,9 @@ class ComputeSpiderWeb(ComputeAndDisplay, object):
         ptcnt = 0
 
         lenRadialThreads = len(self.radialThreads)
-        for tour in xrange(self.rotCnt):
+        for tour in range(self.rotCnt):
             #for ray in self.radialThreads:
-            for i in xrange(lenRadialThreads):
+            for i in range(lenRadialThreads):
                 ray = self.radialThreads[(i+self.offsetExtSpiral) % lenRadialThreads]
                 if first:
                     precDir = ray.ray_dir
@@ -781,9 +781,9 @@ class ComputeSpiderWeb(ComputeAndDisplay, object):
             ptcnt = 0
             
             lenRadialThreads = len(self.radialThreads)
-            for tour in xrange(self.csRotCnt):
+            for tour in range(self.csRotCnt):
                 #for ray in self.radialThreads:
-                for i in xrange(lenRadialThreads):
+                for i in range(lenRadialThreads):
                     ray = self.radialThreads[(i+self.csOffSet) % lenRadialThreads]
                     if first:
                         precDir = ray.ray_dir
@@ -1001,9 +1001,9 @@ class SPIDERWEB_GENERATOR(plugins.ObjectData):
 
         val = p*info.direction
         if i == 0:
-            op[c4d.RADIUS_WEB] = utils.FCut(val, 0.0, sys.maxint)
+            op[c4d.RADIUS_WEB] = utils.FCut(val, 0.0, sys.maxsize)
         if i == 1:
-            op[c4d.OS_SPACE] = utils.FCut(val, 0.0, sys.maxint)
+            op[c4d.OS_SPACE] = utils.FCut(val, 0.0, sys.maxsize)
         
 
 
@@ -1018,7 +1018,7 @@ class SPIDERWEB_GENERATOR(plugins.ObjectData):
             bd.SetMatrix_Matrix(op, bh.GetMg())
 
             info = c4d.HandleInfo()
-            for x in xrange(self.HANDLECOUNT):
+            for x in range(self.HANDLECOUNT):
                 self.GetHandle(op, x, info)
                 bd.DrawHandle(info.position, c4d.DRAWHANDLE_BIG, 0)
                 bd.DrawLine(info.position, c4d.Vector(0), 0)
@@ -1103,7 +1103,7 @@ class SPIDERWEB_GENERATOR(plugins.ObjectData):
         if op[c4d.USE_RAYCAST]:
             objList = []
             if op[c4d.OBJECT_LIST] is not None:
-                for cpt in xrange(op[c4d.OBJECT_LIST].GetObjectCount()):
+                for cpt in range(op[c4d.OBJECT_LIST].GetObjectCount()):
                     objList.append(op[c4d.OBJECT_LIST].ObjectFromIndex(doc,cpt).GetClone())
             else:
                 return container
@@ -1115,7 +1115,7 @@ class SPIDERWEB_GENERATOR(plugins.ObjectData):
                 doc.InsertObject(obj)
 
             res = c4d.utils.SendModelingCommand(
-                                  command = c4d.MCOMMAND_MAKEEDITABLE,
+                                  command = c4d.MCOMMAND_CURRENTSTATETOOBJECT,
                                   list = objList ,
                                   mode = c4d.MODELINGCOMMANDMODE_ALL,
                                   bc = bc,
